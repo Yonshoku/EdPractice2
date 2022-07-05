@@ -18,7 +18,6 @@ class MFrame: JFrame() {
     private val shapeColorButton = JButton("Shape color")
     private val canvasColorButton = JButton("Canvas color")
     private val buttonsPanel = JPanel(FlowLayout(FlowLayout.CENTER))
-
     init {
         initFrame()
 
@@ -26,9 +25,6 @@ class MFrame: JFrame() {
         contentPane.layout = BorderLayout()
 
         // Canvas
-
-        canvas.background = Color(200, 200, 200)
-
         canvasBox.add(Box.createVerticalGlue())
         canvasBox.add(canvas)
         canvasBox.add(Box.createVerticalGlue())
@@ -37,6 +33,27 @@ class MFrame: JFrame() {
         contourColorButton.alignmentX = Component.CENTER_ALIGNMENT
         shapeColorButton.alignmentX = Component.CENTER_ALIGNMENT
         buttonsPanel.alignmentX = Component.CENTER_ALIGNMENT
+
+        contourColorButton.addActionListener {
+            canvas.contourColor = JColorChooser.showDialog(
+                null,
+                "Choose a color",
+                Color(0, 0, 0))
+        }
+
+        canvasColorButton.addActionListener {
+            canvas.canvasColor = JColorChooser.showDialog(
+                null,
+                "Choose a color",
+                Color(0, 0, 0))
+        }
+
+        shapeColorButton.addActionListener {
+            canvas.shapeColor = JColorChooser.showDialog(
+                null,
+                "Choose a color",
+                Color(0, 0, 0))
+        }
 
         buttonsPanel.add(contourColorButton)
         buttonsPanel.add(shapeColorButton)

@@ -12,6 +12,10 @@ class Canvas(private val mWidth: Int, private val mHeight: Int): JPanel() {
     private var intPointList: MutableList<IntPoint> = mutableListOf ()
     private var pointList: MutableList<Point> = mutableListOf ()
 
+    var canvasColor: Color = Color(220, 220, 220)
+    var contourColor: Color = Color(0, 0, 0)
+    var shapeColor: Color = Color(0, 0, 0)
+
     private val thread = Thread {
         while (true) {
             if (curPointIndex >= pointList.size - 1)
@@ -35,16 +39,18 @@ class Canvas(private val mWidth: Int, private val mHeight: Int): JPanel() {
 
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
+        background = canvasColor
 
         (g as Graphics2D).stroke = BasicStroke(2f)
         initCoordinatePlane(g)
 
         (g as Graphics2D).stroke = BasicStroke(1f)
-        g.color = Color(255, 0, 150)
-
         createPointLists()
 
+        g.color = contourColor
         drawGraph(g)
+
+        g.color = shapeColor
         drawTriangle(g, pointList!![curPointIndex])
 
     }
@@ -96,6 +102,15 @@ class Canvas(private val mWidth: Int, private val mHeight: Int): JPanel() {
         g!!.drawLine(convert(x0, y0).x, convert(x0, y0).y, convert(x1, y1).x, convert(x1, y1).y)
         g.drawLine(convert(x1, y1).x, convert(x1, y1).y, convert(x2, y2).x, convert(x2, y2).y)
         g.drawLine(convert(x0, y0).x, convert(x0, y0).y, convert(x2, y2).x, convert(x2, y2).y)
+
+        var p = Polygon()
+
+        p.addPoint(convert(x0, y0).x, convert(x0, y0).y)
+        p.addPoint(convert(x1, y1).x, convert(x1, y1).y)
+        p.addPoint(convert(x2, y2).x, convert(x2, y2).y)
+        p.addPoint(convert(x1, y1).x, convert(x2, y2).y)
+        g.fillPolygon(p)
+
     }
 
     data class IntPoint(var x: Int, var y: Int)

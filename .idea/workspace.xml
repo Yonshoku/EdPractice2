@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="12116b7f-0130-4570-be81-81fee79069e6" name="Changes" comment="Trying to move">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Point.kt" afterDir="false" />
+    <list default="true" id="50c28903-115d-4102-9f13-8c193efb8034" name="Changes" comment="It's moving">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Canvas.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Canvas.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/MFrame.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MFrame.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="b8efa0a79858c84612e35d043c3aea3439f82b5e" />
+        <entry key="$PROJECT_DIR$" value="64c018409d8d9c5c5a6d73b3c9038503a0b27d67" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,6 +70,14 @@
       <option name="presentableId" value="Default" />
       <updated>1656954451130</updated>
     </task>
+    <task id="LOCAL-00001" summary="It's moving">
+      <created>1656983545657</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1656983545657</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -82,5 +90,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="It's moving" />
+    <option name="LAST_COMMIT_MESSAGE" value="It's moving" />
   </component>
 </project>
