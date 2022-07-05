@@ -1,28 +1,51 @@
-import java.awt.Dimension
-import java.awt.Graphics
+import java.awt.*
 import javax.swing.JPanel
 
 class Canvas(private val mWidth: Int, private val mHeight: Int): JPanel() {
-    private val max = 6
+    private val max = 3 * Math.PI / 2
     private val min = -max
+
+    private val updateRate = 100
+    private val a = 0.5
+    private var curPointIndex: Int = 0
+
+    private var intPointList: MutableList<IntPoint> = mutableListOf ()
+    private var pointList: MutableList<Point> = mutableListOf ()
+
+    private val thread = Thread {
+        while (true) {
+            if (curPointIndex >= pointList.size - 1)
+                curPointIndex = 0
+
+            repaint()
+            curPointIndex += 2
+
+            Thread.sleep((1000 / updateRate).toLong())
+        }
+    }
 
     init {
         preferredSize = Dimension(mWidth, mHeight)
         minimumSize = Dimension(mWidth, mHeight)
         maximumSize = Dimension(mWidth, mHeight)
+
+        createPointLists()
+        thread.start()
     }
 
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
 
+        (g as Graphics2D).stroke = BasicStroke(2f)
         initCoordinatePlane(g)
-        print(convert(1, 3))
 
-        /* Test code
-        var p1 = convert(Point(2, 4))
-        var p2 = convert(Point(-6, -5))
-        g!!.drawLine(p1.x, p1.y, p2.x, p2.y)
-        */
+        (g as Graphics2D).stroke = BasicStroke(1f)
+        g.color = Color(255, 0, 150)
+
+        createPointLists()
+
+        drawGraph(g)
+        drawTriangle(g, pointList!![curPointIndex])
 
     }
 
@@ -34,24 +57,46 @@ class Canvas(private val mWidth: Int, private val mHeight: Int): JPanel() {
         g.drawLine(mWidth / 2, 0, mWidth / 2, mHeight)
     }
 
-    private fun convert(point: Point): Point {
-        var xx = point.x.toFloat()
-        var yy = point.y.toFloat()
+    private fun convert(x: Double, y: Double): IntPoint {
+        val newX: Double = ((x + max) / (max * 2)) * mWidth
+        val newY: Double = mHeight - ((y + max) / (max * 2)) * mHeight
 
-        val newX: Float = ((xx + max) / (max * 2)) * mWidth
-        val newY: Float = mHeight - ((yy + max) / (max * 2)) * mHeight
-
-        return Point(newX.toInt(), newY.toInt())
+        return IntPoint(newX.toInt(), newY.toInt())
     }
 
-    private fun convert(x: Int, y: Int): Point {
-        var xx = x.toFloat()
-        var yy = y.toFloat()
-
-        val newX: Float = ((xx + max) / (max * 2)) * mWidth
-        val newY: Float = mHeight - ((yy + max) / (max * 2)) * mHeight
-        return Point(newX.toInt(), newY.toInt())
+    private fun drawGraph(g: Graphics?) {
+        for (i in 0 until intPointList.size - 1) {
+            g!!.drawLine(intPointList[i].x, intPointList[i].y, intPointList[i + 1].x, intPointList[i + 1].y)
+        }
     }
 
-    data class Point(var x: Int, var y: Int)
+    private fun createPointLists() {
+        val step = 0.005
+        var x: Double = min
+
+        intPointList.clear()
+        pointList.clear()
+
+        while (x < max) {
+            intPointList.add(convert(x, Math.sin(x)))
+            pointList.add(Point(x, Math.sin(x)))
+
+            x += step
+        }
+    }
+
+    private fun drawTriangle(g: Graphics?, point: Point) {
+        var x0: Double = point.x
+        var y0: Double = point.y
+        var x1: Double = x0
+        var y1: Double = y0 + a
+        var x2: Double = x1 + a * Math.sqrt(3.0) / 2
+        var y2: Double = y1 - (a / 2)
+
+        g!!.drawLine(convert(x0, y0).x, convert(x0, y0).y, convert(x1, y1).x, convert(x1, y1).y)
+        g.drawLine(convert(x1, y1).x, convert(x1, y1).y, convert(x2, y2).x, convert(x2, y2).y)
+        g.drawLine(convert(x0, y0).x, convert(x0, y0).y, convert(x2, y2).x, convert(x2, y2).y)
+    }
+
+    data class IntPoint(var x: Int, var y: Int)
 }
